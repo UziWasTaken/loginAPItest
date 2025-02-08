@@ -24,13 +24,12 @@
     "wrangler": "3.107.2"
   },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
     "astro": "astro",
+    "build": "astro build",
     "check": "astro build && tsc && wrangler deploy --dry-run",
     "deploy": "astro build && wrangler deploy",
+    "dev": "astro dev",
+    "preview": "astro build && wrangler dev",
     "types": "wrangler types"
   },
   "type": "module"

@@ -1,6 +1,0 @@
-# Create new Astro project
-npm create astro@latest api-docs
-cd api-docs
-
-# Install dependencies
-npm install @astrojs/cloudflare marked 
