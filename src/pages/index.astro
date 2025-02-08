@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Layout from '../layouts/Layout.astro';
 ---
 
 <!doctype html>
@@ -48,3 +49,107 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		<Footer />
 	</body>
 </html>
+
+<Layout title="API Documentation">
+  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold mb-8">API Documentation</h1>
+    
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Overview</h2>
+      <p class="mb-4">
+        This is a test API that demonstrates basic GET and POST endpoints.
+        Base URL: <code class="bg-gray-100 px-2 py-1 rounded">/api</code>
+      </p>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Endpoints</h2>
+      
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-2">GET /api/test</h3>
+        <p class="mb-2">Returns a hello message with timestamp.</p>
+        
+        <div class="bg-gray-100 p-4 rounded-lg mb-4">
+          <h4 class="font-semibold mb-2">Example Response:</h4>
+          <pre class="bg-white p-3 rounded"><code>{
+  "message": "Hello from the API!",
+  "timestamp": "2024-03-14T12:00:00.000Z",
+  "version": "1.0.0"
+}</code></pre>
+        </div>
+
+        <div class="mb-4">
+          <button id="testGet" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Test GET Request
+          </button>
+          <pre id="getResult" class="mt-2 bg-gray-100 p-3 rounded hidden"></pre>
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-2">POST /api/test</h3>
+        <p class="mb-2">Accepts JSON data and returns it with a timestamp.</p>
+        
+        <div class="bg-gray-100 p-4 rounded-lg mb-4">
+          <h4 class="font-semibold mb-2">Example Request:</h4>
+          <pre class="bg-white p-3 rounded"><code>{
+  "name": "John Doe",
+  "email": "john@example.com"
+}</code></pre>
+        </div>
+
+        <div class="mb-4">
+          <button id="testPost" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            Test POST Request
+          </button>
+          <pre id="postResult" class="mt-2 bg-gray-100 p-3 rounded hidden"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  document.getElementById('testGet')?.addEventListener('click', async () => {
+    const result = document.getElementById('getResult');
+    try {
+      const response = await fetch('/api/test');
+      const data = await response.json();
+      if (result) {
+        result.textContent = JSON.stringify(data, null, 2);
+        result.classList.remove('hidden');
+      }
+    } catch (error) {
+      if (result) {
+        result.textContent = 'Error: ' + error.message;
+        result.classList.remove('hidden');
+      }
+    }
+  });
+
+  document.getElementById('testPost')?.addEventListener('click', async () => {
+    const result = document.getElementById('postResult');
+    try {
+      const response = await fetch('/api/test', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: "John Doe",
+          email: "john@example.com"
+        }),
+      });
+      const data = await response.json();
+      if (result) {
+        result.textContent = JSON.stringify(data, null, 2);
+        result.classList.remove('hidden');
+      }
+    } catch (error) {
+      if (result) {
+        result.textContent = 'Error: ' + error.message;
+        result.classList.remove('hidden');
+      }
+    }
+  });
+</script>
