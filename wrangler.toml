@@ -1,5 +1,0 @@
-name = "api-docs"
-compatibility_date = "2024-03-21"
-
-[build]
-command = "npm run build" 
